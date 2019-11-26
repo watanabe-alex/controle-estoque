@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateProducts extends Migration
+class CreateProductsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -19,7 +19,8 @@ class CreateProducts extends Migration
             $table->string('description', 300);
             $table->integer('quantity');
             $table->float('price', 10, 2);
-            $table->foreign('user_id')->reference('id')->on('users');
+            $table->bigInteger('user_id')->unsigned(); //vi em um tutorial que tem que ter isso
+            $table->foreign('user_id')->references('id')->on('users');
             $table->integer('active');
             $table->timestamps();
         });
