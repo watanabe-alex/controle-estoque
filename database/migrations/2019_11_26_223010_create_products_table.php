@@ -19,9 +19,8 @@ class CreateProductsTable extends Migration
             $table->string('description', 300);
             $table->integer('quantity');
             $table->float('price', 10, 2);
-            $table->bigInteger('user_id')->unsigned(); //vi em um tutorial que tem que ter isso
+            $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
-            $table->integer('active');
             $table->timestamps();
         });
     }

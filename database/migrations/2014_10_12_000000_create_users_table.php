@@ -20,6 +20,7 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('img_profile', 300);
+            $table->integer('active');
             $table->rememberToken();
             $table->timestamps(); //cria colunas de create_at e update_at
         });
