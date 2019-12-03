@@ -12,7 +12,7 @@ class Product extends Model
     //public $timestamps = false; //se não estiver trabalhando com timestamps
 
     //isso faz o inner join do mysql
-    public function users() {
+    public function user() {
         return $this->belongsTo('App\User');
     }
 

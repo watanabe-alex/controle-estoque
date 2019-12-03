@@ -9,6 +9,23 @@ use Auth;
 
 class ProductController extends Controller
 {
+
+    //exibir formulário (alguns desenvolvedores colocam o nome index() como o nome da função principal)
+    public function viewForm(Request $request) {
+        return view('products.formRegister'); //página formulário na pasta products
+    }
+
+    public function viewFormUpdate(Request $request, $id=0) { 
+        $product = Product::find($id);
+        if ($product) {
+            return view('products.formUpdate',["product"=>$product]);
+        } else {
+            return view('products.formUpdate'); //retorna sem nenhum produto
+        }
+        
+    }
+
+
     //responsável por cadastrar um produto
     public function create(Request $request) {
         $newProduct = new Product();
@@ -20,38 +37,38 @@ class ProductController extends Controller
 
         $result = $newProduct->save();
 
-        return view('products.form',["result"=>$result]);
+        return view('products.formRegister',["result"=>$result]);
     }
+
 
     public function update(Request $request) {
+        $product = Product::find($request->idProduct);
+        $product->name = $request->nameProduct;
+        $product->description = $request->descriptionProduct;
+        $product->quantity = $request->quantityProduct;
+        $product->price = $request->priceProduct;
+        
+        $result = $product->save();
 
-        //preciso receber o id de um produto usando o product find
-        //vai ser necessário usar rotas com parametro
-
-        $newProduct = Product::find(/* colocar o id de um produto */);
-        $newProduct->name = $request->nameProduct;
-        $newProduct->description = $request->descriptionProduct;
-        $newProduct->quantity = $request->quantityProduct;
-        $newProduct->price = $request->priceProduct;
-        $newProduct->user_id = Auth::user()->id;
+        return view('products.formUpdate',["result"=>$result]);
     }
 
-    public function delete(Request $request) {
-        //para deletar você vai usar Product::destroy(id)
+    public function delete(Request $request, $id=0) {
+        $result =  Product::destroy($id);
+        if($result){
+            return redirect('/produtos');
+        }
     }
 
     public function viewAllProducts(Request $request) {
-        //Product::All
+        $listProducts = Product::all();
+        return view('products.products',["listProducts"=>$listProducts]);
     }
 
     public function viewOneProduct(Request $request) {
-        //Product::find
+        //vai precisar do Product::find($idProduct)
     }
 
 
-    //exibir formulário (alguns desenvolvedores colocam o nome index() como o nome da função principal)
-    public function viewForm(Request $request) {
-        return view('products.form'); //página formulário na pasta products
-    }
 
 }
